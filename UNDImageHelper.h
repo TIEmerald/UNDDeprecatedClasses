@@ -14,6 +14,11 @@
 #define COLOR_PART_GREEN(color)  (((color) >>  8) & 0xff)
 #define COLOR_PART_BLUE(color)   ( (color)        & 0xff)
 
+#pragma mark - Color Generator
+
+#define rgbColor(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
+#define rgbaColor(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+
 @interface UNDImageHelper : NSObject
 
 /*!
@@ -22,6 +27,8 @@
  * @return UIImage The Image we retrived from this url..
  */
 + (UIImage *)getImageFromURLString:(NSString *)urlString;
+
++ (UIImage *)getImageWithColor:(UIColor *)color;
 
 #pragma mark - ACKategories
 + (UIImage*)setBackgroundImageByColor:(UIColor *)backgroundColor withFrame:(CGRect )rect;

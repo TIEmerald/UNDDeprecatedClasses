@@ -17,6 +17,20 @@
     return [UIImage imageWithData:downloadedData];
 }
 
++ (UIImage *)getImageWithColor:(UIColor *)color{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
 
 #pragma mark - ACKategories
 // These method is reference from github.com/AckeeCZ/ACKategories/tree/master/ACKategories/UIKit
@@ -310,7 +324,7 @@
 }
 + (UIImage *)anotherGetImageByReplacingColorsWithMinColor:(NSUInteger)minColor maxColor:(NSUInteger)maxColor withColor:(NSUInteger)newColor andAlpha:(float)alpha fromImage:(UIImage *)orignalImage{
     
-    int precise = 2;
+    int precise = 5;
     
     uint minRed = COLOR_PART_RED(minColor);
     uint minGreen = COLOR_PART_GREEN(minColor);
@@ -350,16 +364,16 @@
             
             //red = 0, green = 1, blue = 2, alpha = 3.
             
-            uint originalRed = rgbaValues[0];
-            uint originalGreen = rgbaValues[1];
-            uint originalBlue = rgbaValues[2];
-            uint originalAlpha = rgbaValues[3];
+            uint originalAlpha = rgbaValues[0];
+            uint originalBlue = rgbaValues[1];
+            uint originalGreen = rgbaValues[2];
+            uint originalRed = rgbaValues[3];
             
             if (originalRed >= minRed && originalRed <= maxRed && originalGreen >= minGreen && originalGreen <= maxGreen && originalBlue >= minBlue && originalBlue <= maxBlue && originalAlpha > 0) {
-                rgbaValues[0] = newRed;
-                rgbaValues[1] = newGreen;
-                rgbaValues[2] = newBlue;
-                rgbaValues[3] = rgbaValues[3];
+                rgbaValues[0] = originalAlpha;
+                rgbaValues[1] = newBlue * originalAlpha / 255;
+                rgbaValues[2] = newGreen * originalAlpha / 255;
+                rgbaValues[3] = newRed * originalAlpha / 255;
             }
             
         }
